@@ -23,11 +23,11 @@
             <!-- From - To -->
             <div class="flex space-x-4">
                 <div class="flex-1 relative">
-                    <input type="text" id="from" placeholder="From" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" id="from" placeholder="From (Select a suggested address)" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <input type="hidden" id="from_place_id">
                 </div>
                 <div class="flex-1 relative">
-                    <input type="text" id="to" placeholder="To" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" id="to" placeholder="To (Select a suggested address)" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <input type="hidden" id="to_place_id">
                 </div>
             </div>
@@ -123,7 +123,7 @@
             try {
                 console.log('Google Maps API is loading...');
                 const options = {
-                    componentRestrictions: { country: 'tr' }, // Only Turkey
+                    componentRestrictions: { country: '{{ config('services.google_maps.country_code') }}' }, // Dynamic country code from config
                     bounds: new google.maps.LatLngBounds(
                         new google.maps.LatLng(40.7669, 28.9759), // Istanbul southwest boundary
                         new google.maps.LatLng(41.2921, 29.3789)  // Istanbul northeast boundary
