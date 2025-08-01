@@ -1,0 +1,176 @@
+header {
+    width: 100%;
+    height: 100svh;
+    position: relative;
+    background-color: #111;
+    background-image: url("../img/nuru-photos/safety.io2_1.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: bottom;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 5svh;
+}
+.header-container {
+    width: 70%;
+    height: 100%;
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 30px;
+}
+.header-detail {
+    display: flex;
+    user-select: none;
+    pointer-events: none;
+}
+.header-content {
+    padding: 40px 0;
+}
+.header-content h1 {
+    margin-bottom: 1.5rem;
+    font-weight: 100;
+    font-size: 58px;
+    color: white;
+}
+.header-content p {
+    font-size: 24px;
+    margin-bottom: 2rem;
+    width: 450px;
+    color: white;
+}
+.header-content *::selection {
+    background-color: white;
+    color: black;
+}
+.header-detail .header-img {
+    border-radius: 15px 15px 0 0;
+    width: 680px;
+    opacity: 0;
+    scale: .8;
+    transform: translateY(150px);
+    animation: headerImgAnim 1s forwards ease-in-out;
+    animation-delay: 0.15s;
+}
+@keyframes headerImgAnim {
+    to {
+        opacity: 1;
+        scale: 1;
+        transform: translateY(0);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.9);
+    }
+}
+@media (max-width: 1660px) {
+    .header-detail .header-img {
+        width: 100%;
+    }
+}
+.imgSlider .imgSlider-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+}
+.imgSlider-title {
+    font-size: 24px;
+    font-weight: 100;
+    padding-bottom: 3rem;
+}
+.imgSlider-title .subTitle {
+    padding-bottom: 0.5rem;
+}
+.sales {
+    padding: 50px 0;
+}
+.sales-title {
+    margin-bottom: 2rem;
+}
+.imgSlider-swiper {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+.imgSlider-swiper .swiper-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+}
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  box-shadow: 0 0 10px 2px #202124;
+}
+.swiper {
+  margin-left: auto;
+  margin-right: auto;
+}
+.reviewBox {
+    padding: 20px;
+    border-radius: 25px;
+    background-color: #202124;
+    box-shadow: 0 0 10px 2px #202124;
+    position: relative;
+    width: 100%;
+}
+.reviewBox * {
+    color: white;
+}
+.reviewProfile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+.reviewProfile img {
+    width: 45px;
+    height: 45px;
+}
+.reviewProfileDetails {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+.reviewProfileDetails i {
+    font-size: 0.9rem;
+    padding-right: 20px;
+}
+.reviewProfileDetails h3 {
+    padding-right: 30px;
+}
+.reviewBox p {
+    font-size: 1.1rem;
+    font-weight: 100;
+    text-align: start;
+}
+.reviewBox p::before {
+    content: '“ ';
+}
+.reviewBox p::after {
+    content: ' ”';
+}
+.reviewBox a {
+    width: 100%;
+    display: block;
+    text-align: center;
+}
+.reviewDate {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.reviewBox img.rounded {
+    border-radius: 50%;
+}

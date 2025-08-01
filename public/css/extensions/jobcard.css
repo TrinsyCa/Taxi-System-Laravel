@@ -1,0 +1,93 @@
+.section-container.jobCard {
+    width: 1335px;
+}
+.jobCard .jobCard-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+    flex-wrap: wrap;
+}
+.jobCard .jobBox {
+    width: 300px !important;
+    height: 190px;
+    padding: 15px;
+    border-radius: 20px;
+    background: linear-gradient(140deg, #5962b3, #ae97ff);
+    display: flex;
+    gap: 10px;
+    user-select: none;
+    animation: fadein linear forwards;
+    animation-timeline: view();
+    animation-range-start: 200px;
+    animation-range-end: 300px;
+    scale: .8;
+    opacity: 0;
+}
+.jobCard .jobBox p {
+    width: 215px;
+    height: 100%;
+}
+.jobCard .jobBox * {
+    color: white;
+}
+.jobCard .jobBox .jobBox-icon {
+    border-radius: 50%;
+    background-color: white;
+    min-width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+.jobCard .jobBox .jobBox-icon svg {
+    width: 25px;
+    height: 25px;
+}
+.jobCard .jobBox .jobBox-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.jobCard .jobBox .jobBox-details h3 {
+    margin: 0.6rem 0;
+}
+.jobCard .jobBox .jobBox-details button {
+    border: 0;
+    outline: 0;
+    background-color: white;
+    padding: 2px;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: 0.25s scale;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+}
+.jobCard .jobBox .jobBox-details button span {
+    width: 100%;
+    font-weight: bold;
+    font-size: 1rem;
+    background: linear-gradient(140deg, #5962b3, #ae97ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.jobCard .jobBox .jobBox-details button svg {
+    width: 40px;
+    height: 40px;
+    scale: 0.9;
+    transition: 0.3s scale;
+}
+.jobCard .jobBox .jobBox-details button:hover svg,
+.jobCard .jobBox .jobBox-details button:active svg {
+    scale: 1;
+}
+.jobCard .jobBox .jobBox-details button:hover,
+.jobCard .jobBox .jobBox-details button:active {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+.jobCard .jobBox .jobBox-details button:active {
+    scale: 0.95;
+}

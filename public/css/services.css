@@ -1,0 +1,17 @@
+.safety {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10svh;
+}
+.safety-img-container {
+    animation: fadein-noopacity linear forwards;
+    animation-timeline: view();
+    animation-range-start: 50px;
+    animation-range-end: 1100px;
+    opacity: 1;
+}
+#transfer {
+    scroll-margin-top: 80px;
+}
