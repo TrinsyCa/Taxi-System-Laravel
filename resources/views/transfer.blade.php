@@ -16,77 +16,81 @@
         .vehicle-cost { color: #1E90FF; font-weight: bold; }
     </style>
 </head>
-<body class="bg-black flex items-center justify-center min-h-screen">
-    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-        <h1 class="text-2xl font-bold mb-4 text-center">Transfer Reservation</h1>
-        <!-- Show Selected Country -->
-        <div class="uppercase text-lg flex items-center justify-center gap-1">
-            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 36 36"><rect width="36" height="36" fill="none"/><path fill="#000" d="M26.54 18a19.4 19.4 0 0 0-.43-4h3.6a12 12 0 0 0-.67-1.6h-3.35a19.7 19.7 0 0 0-2.89-5.87a12.3 12.3 0 0 0-2.55-.76a17.8 17.8 0 0 1 3.89 6.59h-5.39V5.6h-1.5v6.77h-5.39a17.8 17.8 0 0 1 3.9-6.6a12.3 12.3 0 0 0-2.54.75a19.7 19.7 0 0 0-2.91 5.85H6.94A12 12 0 0 0 6.26 14h3.63a19.4 19.4 0 0 0-.43 4a19.7 19.7 0 0 0 .5 4.37H6.42A12 12 0 0 0 7.16 24h3.23a19.3 19.3 0 0 0 2.69 5.36a12.3 12.3 0 0 0 2.61.79A17.9 17.9 0 0 1 12 24h5.26v6.34h1.5V24H24a17.9 17.9 0 0 1-3.7 6.15a12.3 12.3 0 0 0 2.62-.81A19.3 19.3 0 0 0 25.61 24h3.2a12 12 0 0 0 .74-1.6H26a19.7 19.7 0 0 0 .54-4.4m-9.29 4.37h-5.74a17.7 17.7 0 0 1-.09-8.4h5.83Zm7.24 0h-5.74V14h5.83a18.2 18.2 0 0 1 .42 4a18 18 0 0 1-.51 4.37" class="clr-i-outline clr-i-outline-path-1"/><path fill="#000" d="M18 2a16 16 0 1 0 16 16A16 16 0 0 0 18 2m0 30a14 14 0 1 1 14-14a14 14 0 0 1-14 14" class="clr-i-outline clr-i-outline-path-2"/><path fill="none" d="M0 0h36v36H0z"/></svg>
-            <p>{{ config('services.google_maps.country_code') }}</p>
+<body class="bg-black min-h-screen">
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h1 class="text-2xl font-bold mb-4 text-center">Transfer Reservation</h1>
+            <!-- Show Selected Country -->
+            <div class="uppercase text-lg flex items-center justify-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 36 36"><rect width="36" height="36" fill="none"/><path fill="#000" d="M26.54 18a19.4 19.4 0 0 0-.43-4h3.6a12 12 0 0 0-.67-1.6h-3.35a19.7 19.7 0 0 0-2.89-5.87a12.3 12.3 0 0 0-2.55-.76a17.8 17.8 0 0 1 3.89 6.59h-5.39V5.6h-1.5v6.77h-5.39a17.8 17.8 0 0 1 3.9-6.6a12.3 12.3 0 0 0-2.54.75a19.7 19.7 0 0 0-2.91 5.85H6.94A12 12 0 0 0 6.26 14h3.63a19.4 19.4 0 0 0-.43 4a19.7 19.7 0 0 0 .5 4.37H6.42A12 12 0 0 0 7.16 24h3.23a19.3 19.3 0 0 0 2.69 5.36a12.3 12.3 0 0 0 2.61.79A17.9 17.9 0 0 1 12 24h5.26v6.34h1.5V24H24a17.9 17.9 0 0 1-3.7 6.15a12.3 12.3 0 0 0 2.62-.81A19.3 19.3 0 0 0 25.61 24h3.2a12 12 0 0 0 .74-1.6H26a19.7 19.7 0 0 0 .54-4.4m-9.29 4.37h-5.74a17.7 17.7 0 0 1-.09-8.4h5.83Zm7.24 0h-5.74V14h5.83a18.2 18.2 0 0 1 .42 4a18 18 0 0 1-.51 4.37" class="clr-i-outline clr-i-outline-path-1"/><path fill="#000" d="M18 2a16 16 0 1 0 16 16A16 16 0 0 0 18 2m0 30a14 14 0 1 1 14-14a14 14 0 0 1-14 14" class="clr-i-outline clr-i-outline-path-2"/><path fill="none" d="M0 0h36v36H0z"/></svg>
+                <p>{{ config('services.google_maps.country_code') }}</p>
+            </div>
+            <div class="space-y-4">
+                <!-- From - To -->
+                <div class="flex space-x-4">
+                    <div class="flex-1 relative">
+                        <input type="text" id="from" placeholder="From" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="hidden" id="from_place_id">
+                    </div>
+                    <div class="flex-1 relative">
+                        <input type="text" id="to" placeholder="To" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="hidden" id="to_place_id">
+                    </div>
+                </div>
+                <!-- Date & Time -->
+                <div class="flex space-x-4">
+                    <div class="flex-1">
+                        <label for="departure_datetime" class="block text-sm font-medium text-gray-700">Departure Date & Time</label>
+                        <input type="datetime-local" id="departure_datetime" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    </div>
+                </div>
+                <!-- Round-Trip Checkbox -->
+                <div class="flex items-center">
+                    <input type="checkbox" id="round_trip" class="h-4 w-4 text-blue-500 focus:ring-blue-500 border-gray-300 rounded">
+                    <label for="round_trip" class="ml-2 text-sm font-medium text-gray-700">Round Trip</label>
+                </div>
+                <!-- Return Date & Time (Visible if checkbox is selected) -->
+                <div id="return_datetime_container" class="hidden">
+                    <label for="return_datetime" class="block text-sm font-medium text-gray-700">Return Date & Time</label>
+                    <input type="datetime-local" id="return_datetime" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <!-- Passenger Count -->
+                <div>
+                    <label for="passenger_count" class="block text-sm font-medium text-gray-700">Number of Passengers</label>
+                    <select id="passenger_count" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                    </select>
+                </div>
+                <!-- Book Now Button -->
+                <button id="bookNow" class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 w-full">Book Now</button>
+            </div>
+            <div id="vehicleSelection" class="mt-4 hidden">
+                <h2 class="text-lg font-semibold">Vehicle Selection</h2>
+                <div class="space-y-2">
+                    <div class="p-2 border rounded flex justify-between items-center">
+                        <span>Standard Vehicle <span id="standardCost" class="vehicle-cost"></span></span>
+                        <button data-vehicle="standard" onclick="selectVehicle('standard', 1.08, 35)" class="bg-green-500 text-white px-2 rounded">Select</button>
+                    </div>
+                    <div class="p-2 border rounded flex justify-between items-center">
+                        <span>Luxury Vehicle <span id="luxuryCost" class="vehicle-cost"></span></span>
+                        <button data-vehicle="luxury" onclick="selectVehicle('luxury', 1.3, 50)" class="bg-green-500 text-white px-2 rounded">Select</button>
+                    </div>
+                </div>
+            </div>
+            <div id="map" class="mt-4 hidden"></div>
+            <p id="routeInfo" class="info hidden"></p>
+            <p id="errorMessage" class="error-message hidden"></p>
         </div>
-        <div class="space-y-4">
-            <!-- From - To -->
-            <div class="flex space-x-4">
-                <div class="flex-1 relative">
-                    <input type="text" id="from" placeholder="From" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <input type="hidden" id="from_place_id">
-                </div>
-                <div class="flex-1 relative">
-                    <input type="text" id="to" placeholder="To" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <input type="hidden" id="to_place_id">
-                </div>
-            </div>
-            <!-- Date & Time -->
-            <div class="flex space-x-4">
-                <div class="flex-1">
-                    <label for="departure_datetime" class="block text-sm font-medium text-gray-700">Departure Date & Time</label>
-                    <input type="datetime-local" id="departure_datetime" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                </div>
-            </div>
-            <!-- Round-Trip Checkbox -->
-            <div class="flex items-center">
-                <input type="checkbox" id="round_trip" class="h-4 w-4 text-blue-500 focus:ring-blue-500 border-gray-300 rounded">
-                <label for="round_trip" class="ml-2 text-sm font-medium text-gray-700">Round Trip</label>
-            </div>
-            <!-- Return Date & Time (Visible if checkbox is selected) -->
-            <div id="return_datetime_container" class="hidden">
-                <label for="return_datetime" class="block text-sm font-medium text-gray-700">Return Date & Time</label>
-                <input type="datetime-local" id="return_datetime" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
-            <!-- Passenger Count -->
-            <div>
-                <label for="passenger_count" class="block text-sm font-medium text-gray-700">Number of Passengers</label>
-                <select id="passenger_count" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                </select>
-            </div>
-            <!-- Book Now Button -->
-            <button id="bookNow" class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 w-full">Book Now</button>
-        </div>
-        <div id="vehicleSelection" class="mt-4 hidden">
-            <h2 class="text-lg font-semibold">Vehicle Selection</h2>
-            <div class="space-y-2">
-                <div class="p-2 border rounded flex justify-between items-center">
-                    <span>Standard Vehicle <span id="standardCost" class="vehicle-cost"></span></span>
-                    <button data-vehicle="standard" onclick="selectVehicle('standard', 1.08, 35)" class="bg-green-500 text-white px-2 rounded">Select</button>
-                </div>
-                <div class="p-2 border rounded flex justify-between items-center">
-                    <span>Luxury Vehicle <span id="luxuryCost" class="vehicle-cost"></span></span>
-                    <button data-vehicle="luxury" onclick="selectVehicle('luxury', 1.3, 50)" class="bg-green-500 text-white px-2 rounded">Select</button>
-                </div>
-            </div>
-        </div>
-        <div id="map" class="mt-4 hidden"></div>
-        <p id="routeInfo" class="info hidden"></p>
-        <p id="errorMessage" class="error-message hidden"></p>
     </div>
+
+    @include('footer')
 
     <script>
         const fromInput = document.getElementById('from');
