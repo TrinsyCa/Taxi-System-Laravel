@@ -70,11 +70,11 @@
             <div class="space-y-2">
                 <div class="p-2 border rounded flex justify-between items-center">
                     <span>Standard Vehicle <span id="standardCost" class="vehicle-cost"></span></span>
-                    <button data-vehicle="standard" onclick="selectVehicle('standard', 1.1, 35)" class="bg-green-500 text-white px-2 rounded">Select</button>
+                    <button data-vehicle="standard" onclick="selectVehicle('standard', 1.08, 35)" class="bg-green-500 text-white px-2 rounded">Select</button>
                 </div>
                 <div class="p-2 border rounded flex justify-between items-center">
                     <span>Luxury Vehicle <span id="luxuryCost" class="vehicle-cost"></span></span>
-                    <button data-vehicle="luxury" onclick="selectVehicle('luxury', 1.5, 50)" class="bg-green-500 text-white px-2 rounded">Select</button>
+                    <button data-vehicle="luxury" onclick="selectVehicle('luxury', 1.3, 50)" class="bg-green-500 text-white px-2 rounded">Select</button>
                 </div>
             </div>
         </div>
