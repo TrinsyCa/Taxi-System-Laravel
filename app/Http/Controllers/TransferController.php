@@ -92,9 +92,9 @@ class TransferController extends Controller
                 $durationInTraffic += $returnData['routes'][0]['legs'][0]['duration_in_traffic']['value']; // Add return duration
             }
 
-            // Calculate costs (multiplied by passenger count)
-            $standardCost = max(35, round($distance * 1.08)) * $passengerCount;
-            $luxuryCost = max(50, round($distance * 1.3)) * $passengerCount;
+            // Calculate costs
+            $standardCost = max(35, round($distance * 1.08));
+            $luxuryCost = max(50, round($distance * 1.3));
 
             // Validate coordinates
             if (!$fromCoordinates || !$toCoordinates) {
