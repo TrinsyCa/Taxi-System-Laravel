@@ -14,6 +14,8 @@ class TransferController extends Controller
         $toPlaceId = $request->input('to_place_id');
         $from = $request->input('from');
         $to = $request->input('to');
+        $isRoundTrip = $request->input('is_round_trip', false);
+        $passengerCount = (int) $request->input('passenger_count', 1);
 
         $client = new Client();
 
@@ -35,6 +37,16 @@ class TransferController extends Controller
             if ($data['status'] === 'OK' && isset($data['routes'][0]['legs'][0])) {
                 $distance = round($data['routes'][0]['legs'][0]['distance']['value'] / 1000); // km cinsine çevir ve tam sayıya yuvarla
                 $durationInTraffic = $data['routes'][0]['legs'][0]['duration_in_traffic']['value']; // saniye cinsinden
+
+                // Gidiş-dönüşse mesafeyi iki katına çıkar
+                if ($isRoundTrip) {
+                    $distance *= 2;
+                    $durationInTraffic *= 2;
+                }
+
+                // Ücret hesaplamaları (kişi başına çarpan eklenebilir)
+                $standardCost = max(35, round($distance * 1.08));
+                $luxuryCost = max(50, round($distance * 1.3));
 
                 // Koordinatları routes.legs’ten al
                 $fromCoordinates = null;
@@ -68,7 +80,11 @@ class TransferController extends Controller
                     'from' => $from,
                     'to' => $to,
                     'from_coordinates' => $fromCoordinates,
-                    'to_coordinates' => $toCoordinates
+                    'to_coordinates' => $toCoordinates,
+                    'standard_cost' => $standardCost,
+                    'luxury_cost' => $luxuryCost,
+                    'passenger_count' => $passengerCount,
+                    'is_round_trip' => $isRoundTrip
                 ]);
             } else {
                 return response()->json([
