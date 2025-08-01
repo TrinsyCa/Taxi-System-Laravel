@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Transfer Rezervasyonu</title>
+    <title>Transfer Reservation</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_maps.key') }}&libraries=places,directions" async defer></script>
     <style>
-        .pac-container { z-index: 1000; } /* Google Places önerileri için z-index */
+        .pac-container { z-index: 1000; } /* z-index for Google Places suggestions */
         input:focus { outline: none; }
         #map { height: 300px; width: 100%; margin-top: 20px; }
         .error-message { color: red; margin-top: 10px; }
@@ -18,39 +18,39 @@
 </head>
 <body class="bg-black flex items-center justify-center min-h-screen">
     <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-        <h1 class="text-2xl font-bold mb-4 text-center">Transfer Rezervasyonu</h1>
+        <h1 class="text-2xl font-bold mb-4 text-center">Transfer Reservation</h1>
         <div class="space-y-4">
-            <!-- Nereden - Nereye -->
+            <!-- From - To -->
             <div class="flex space-x-4">
                 <div class="flex-1 relative">
-                    <input type="text" id="from" placeholder="Nereden" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" id="from" placeholder="From" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <input type="hidden" id="from_place_id">
                 </div>
                 <div class="flex-1 relative">
-                    <input type="text" id="to" placeholder="Nereye" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" id="to" placeholder="To" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <input type="hidden" id="to_place_id">
                 </div>
             </div>
-            <!-- Tarih & Saat -->
+            <!-- Date & Time -->
             <div class="flex space-x-4">
                 <div class="flex-1">
-                    <label for="departure_datetime" class="block text-sm font-medium text-gray-700">Gidiş Tarih & Saat</label>
+                    <label for="departure_datetime" class="block text-sm font-medium text-gray-700">Departure Date & Time</label>
                     <input type="datetime-local" id="departure_datetime" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                 </div>
             </div>
-            <!-- Gidiş-Dönüş Checkbox -->
+            <!-- Round-Trip Checkbox -->
             <div class="flex items-center">
                 <input type="checkbox" id="round_trip" class="h-4 w-4 text-blue-500 focus:ring-blue-500 border-gray-300 rounded">
-                <label for="round_trip" class="ml-2 text-sm font-medium text-gray-700">Gidiş-Dönüş</label>
+                <label for="round_trip" class="ml-2 text-sm font-medium text-gray-700">Round Trip</label>
             </div>
-            <!-- Dönüş Tarih & Saat (Checkbox seçilirse görünecek) -->
+            <!-- Return Date & Time (Visible if checkbox is selected) -->
             <div id="return_datetime_container" class="hidden">
-                <label for="return_datetime" class="block text-sm font-medium text-gray-700">Dönüş Tarih & Saat</label>
+                <label for="return_datetime" class="block text-sm font-medium text-gray-700">Return Date & Time</label>
                 <input type="datetime-local" id="return_datetime" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
-            <!-- Kişi Sayısı -->
+            <!-- Passenger Count -->
             <div>
-                <label for="passenger_count" class="block text-sm font-medium text-gray-700">Kişi Sayısı</label>
+                <label for="passenger_count" class="block text-sm font-medium text-gray-700">Number of Passengers</label>
                 <select id="passenger_count" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -62,19 +62,19 @@
                     <option value="8">8</option>
                 </select>
             </div>
-            <!-- Book Now Butonu -->
+            <!-- Book Now Button -->
             <button id="bookNow" class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 w-full">Book Now</button>
         </div>
         <div id="vehicleSelection" class="mt-4 hidden">
-            <h2 class="text-lg font-semibold">Araç Seçimi</h2>
+            <h2 class="text-lg font-semibold">Vehicle Selection</h2>
             <div class="space-y-2">
                 <div class="p-2 border rounded flex justify-between items-center">
-                    <span>Standart Araç <span id="standardCost" class="vehicle-cost"></span></span>
-                    <button data-vehicle="standard" onclick="selectVehicle('standard', 1.1, 35)" class="bg-green-500 text-white px-2 rounded">Seç</button>
+                    <span>Standard Vehicle <span id="standardCost" class="vehicle-cost"></span></span>
+                    <button data-vehicle="standard" onclick="selectVehicle('standard', 1.1, 35)" class="bg-green-500 text-white px-2 rounded">Select</button>
                 </div>
                 <div class="p-2 border rounded flex justify-between items-center">
-                    <span>Lüks Araç <span id="luxuryCost" class="vehicle-cost"></span></span>
-                    <button data-vehicle="luxury" onclick="selectVehicle('luxury', 1.5, 50)" class="bg-green-500 text-white px-2 rounded">Seç</button>
+                    <span>Luxury Vehicle <span id="luxuryCost" class="vehicle-cost"></span></span>
+                    <button data-vehicle="luxury" onclick="selectVehicle('luxury', 1.5, 50)" class="bg-green-500 text-white px-2 rounded">Select</button>
                 </div>
             </div>
         </div>
@@ -102,7 +102,7 @@
         const passengerCount = document.getElementById('passenger_count');
         let map, directionsService, directionsRenderer;
 
-        // Tarih input’ları için minimum tarih ayarı (bugünden itibaren)
+        // Set minimum date for date inputs (from today)
         function setMinDateTime() {
             const now = new Date();
             const minDateTime = now.toISOString().slice(0, 16); // YYYY-MM-DDTHH:mm
@@ -110,25 +110,25 @@
             returnDatetime.min = minDateTime;
         }
 
-        // Gidiş-dönüş checkbox’ı değiştiğinde
+        // Handle round-trip checkbox change
         roundTripCheckbox.addEventListener('change', () => {
             returnDatetimeContainer.className = roundTripCheckbox.checked ? '' : 'hidden';
             if (!roundTripCheckbox.checked) {
-                returnDatetime.value = ''; // Checkbox kaldırılırsa dönüş tarihini sıfırla
+                returnDatetime.value = ''; // Reset return date if checkbox is unchecked
             }
         });
 
-        // Google Places API ile autocomplete başlatma
+        // Initialize Google Places API autocomplete
         function initializeAutocomplete() {
             try {
-                console.log('Google Maps API yükleniyor...');
+                console.log('Google Maps API is loading...');
                 const options = {
-                    componentRestrictions: { country: 'tr' }, // Sadece Türkiye
+                    componentRestrictions: { country: 'tr' }, // Only Turkey
                     bounds: new google.maps.LatLngBounds(
-                        new google.maps.LatLng(40.7669, 28.9759), // İstanbul’un güneybatı sınırı
-                        new google.maps.LatLng(41.2921, 29.3789)  // İstanbul’un kuzeydoğu sınırı
+                        new google.maps.LatLng(40.7669, 28.9759), // Istanbul southwest boundary
+                        new google.maps.LatLng(41.2921, 29.3789)  // Istanbul northeast boundary
                     ),
-                    types: ['geocode', 'establishment'], // Bölgeler, havalimanları, oteller
+                    types: ['geocode', 'establishment'], // Regions, airports, hotels
                     fields: ['name', 'types', 'formatted_address', 'geometry', 'place_id']
                 };
 
@@ -138,15 +138,15 @@
                 fromAutocomplete.addListener('place_changed', () => updateInput(fromInput, fromPlaceIdInput, fromAutocomplete));
                 toAutocomplete.addListener('place_changed', () => updateInput(toInput, toPlaceIdInput, toAutocomplete));
 
-                // Manuel girişi engelle
+                // Prevent manual input
                 fromInput.addEventListener('blur', () => validateInput(fromInput, fromPlaceIdInput));
                 toInput.addEventListener('blur', () => validateInput(toInput, toPlaceIdInput));
 
-                console.log('Autocomplete başarıyla başlatıldı.');
+                console.log('Autocomplete initialized successfully.');
             } catch (error) {
-                console.error('Autocomplete başlatılamadı:', error);
-                fromInput.placeholder = 'Hata! Google Haritalar yüklenemedi.';
-                toInput.placeholder = 'Hata! Google Haritalar yüklenemedi.';
+                console.error('Failed to initialize autocomplete:', error);
+                fromInput.placeholder = 'Error! Google Maps failed to load.';
+                toInput.placeholder = 'Error! Google Maps failed to load.';
             }
         }
 
@@ -159,11 +159,11 @@
                 placeIdInput.value = place.place_id;
                 input.dataset.type = isAirport ? 'airport' : isHotel ? 'hotel' : 'place';
                 input.dataset.valid = 'true';
-                console.log(`Seçilen yer: ${input.value}, Tür: ${input.dataset.type}, Place ID: ${place.place_id}`);
+                console.log(`Selected place: ${input.value}, Type: ${input.dataset.type}, Place ID: ${place.place_id}`);
             } else {
                 input.dataset.valid = 'false';
                 placeIdInput.value = '';
-                console.warn(`Yer seçilmedi veya koordinatlar eksik: ${input.value}`);
+                console.warn(`Place not selected or coordinates missing: ${input.value}`);
             }
         }
 
@@ -171,32 +171,32 @@
             if (input.dataset.valid !== 'true') {
                 input.value = '';
                 placeIdInput.value = '';
-                input.placeholder = 'Lütfen önerilen adreslerden seçin';
-                console.warn(`Geçersiz giriş: ${input.id}`);
+                input.placeholder = 'Please select from suggested addresses';
+                console.warn(`Invalid input: ${input.id}`);
             }
         }
 
-        // Haritayı başlatma
+        // Initialize map
         function initializeMap() {
             map = new google.maps.Map(mapDiv, {
-                center: { lat: 41.0082, lng: 28.9784 }, // İstanbul merkezi
+                center: { lat: 41.0082, lng: 28.9784 }, // Istanbul center
                 zoom: 10
             });
             directionsService = new google.maps.DirectionsService();
             directionsRenderer = new google.maps.DirectionsRenderer({
                 polylineOptions: {
-                    strokeColor: '#1E90FF', // Mavi rota çizgisi
+                    strokeColor: '#1E90FF', // Blue route line
                     strokeWeight: 5
                 }
             });
             directionsRenderer.setMap(map);
         }
 
-        // Rota çizme
+        // Draw route
         function drawRoute(fromCoords, toCoords) {
             if (!fromCoords || !toCoords) {
-                console.error('Koordinatlar eksik:', { fromCoords, toCoords });
-                errorMessage.textContent = 'Rota çizilemedi, lütfen önerilen adreslerden seçin.';
+                console.error('Missing coordinates:', { fromCoords, toCoords });
+                errorMessage.textContent = 'Route could not be drawn, please select from suggested addresses.';
                 errorMessage.className = 'error-message';
                 return;
             }
@@ -215,60 +215,60 @@
             directionsService.route(request, (result, status) => {
                 if (status === google.maps.DirectionsStatus.OK) {
                     directionsRenderer.setDirections(result);
-                    console.log('Rota çizildi:', result);
+                    console.log('Route drawn:', result);
                     errorMessage.className = 'error-message hidden';
                 } else {
-                    console.error('Rota çizilemedi:', status, result);
-                    errorMessage.textContent = `Rota çizilemedi: ${status}. Lütfen önerilen adreslerden seçin.`;
+                    console.error('Failed to draw route:', status, result);
+                    errorMessage.textContent = `Failed to draw route: ${status}. Please select from suggested addresses.`;
                     errorMessage.className = 'error-message';
                 }
             });
         }
 
-        // Süreyi formatlama (saniye -> dakika/saat)
+        // Format duration (seconds to minutes/hours)
         function formatDuration(seconds) {
             const hours = Math.floor(seconds / 3600);
             const minutes = Math.floor((seconds % 3600) / 60);
             if (hours > 0) {
-                return `${hours} saat ${minutes} dakika`;
+                return `${hours} hours ${minutes} minutes`;
             }
-            return `${minutes} dakika`;
+            return `${minutes} minutes`;
         }
 
-        // Ücret hesaplama
+        // Calculate cost
         function calculateCost(distance, ratePerKm, minCost, passengerCount) {
-            if (!distance) return 'Hesaplanamadı';
+            if (!distance) return 'Not calculated';
             return `€${Math.max(minCost, Math.round(distance * ratePerKm)) * passengerCount}`;
         }
 
-        // Google Maps API yüklendiğinde autocomplete ve haritayı başlat
+        // Initialize autocomplete and map when Google Maps API loads
         window.addEventListener('load', () => {
             if (typeof google === 'object' && typeof google.maps === 'object') {
-                console.log('Google Maps API yüklendi.');
+                console.log('Google Maps API loaded.');
                 initializeAutocomplete();
                 initializeMap();
                 setMinDateTime();
             } else {
-                console.error('Google Maps API yüklenemedi.');
+                console.error('Google Maps API failed to load.');
                 setTimeout(() => {
                     if (typeof google === 'undefined') {
-                        fromInput.placeholder = 'Hata! Google Haritalar yüklenemedi.';
-                        toInput.placeholder = 'Hata! Google Haritalar yüklenemedi.';
+                        fromInput.placeholder = 'Error! Google Maps failed to load.';
+                        toInput.placeholder = 'Error! Google Maps failed to load.';
                     }
                 }, 2000);
             }
         });
 
-        // Book Now butonuna tıklama
+        // Book Now button click
         bookNowBtn.addEventListener('click', () => {
             if (fromInput.value && toInput.value && fromPlaceIdInput.value && toPlaceIdInput.value && fromInput.dataset.valid === 'true' && toInput.dataset.valid === 'true' && departureDatetime.value) {
                 if (roundTripCheckbox.checked && !returnDatetime.value) {
-                    errorMessage.textContent = 'Lütfen dönüş tarih ve saatini seçin.';
+                    errorMessage.textContent = 'Please select return date and time.';
                     errorMessage.className = 'error-message';
                     return;
                 }
 
-                console.log('Book Now tıklandı, istek gönderiliyor:', {
+                console.log('Book Now clicked, sending request:', {
                     from: fromInput.value,
                     to: toInput.value,
                     from_place_id: fromPlaceIdInput.value,
@@ -298,7 +298,7 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    console.log('API Yanıtı:', data);
+                    console.log('API Response:', data);
                     if (data.error) {
                         errorMessage.textContent = data.error;
                         errorMessage.className = 'error-message';
@@ -307,61 +307,61 @@
                         routeInfo.className = 'info hidden';
                     } else {
                         vehicleSelection.className = 'mt-4';
-                        mapDiv.className = 'mt-4'; // Haritayı göster
+                        mapDiv.className = 'mt-4'; // Show map
                         routeInfo.className = 'info';
                         routeInfo.innerHTML = `
-                            Mesafe: ${data.distance} km<br>
-                            Tahmini Süre (Trafik Dahil): ${formatDuration(data.duration_in_traffic)}<br>
-                            ${data.is_round_trip ? 'Gidiş-Dönüş<br>' : ''}
-                            Kişi Sayısı: ${data.passenger_count}
+                            Distance: ${data.distance} km<br>
+                            Estimated Duration (Including Traffic): ${formatDuration(data.duration_in_traffic)}<br>
+                            ${data.is_round_trip ? 'Round Trip<br>' : ''}
+                            Number of Passengers: ${data.passenger_count}
                         `;
                         window.currentDistance = data.distance;
 
-                        // Araç ücretlerini hesapla ve göster
-                        standardCost.textContent = data.standard_cost ? `€${data.standard_cost}` : 'Hesaplanamadı';
-                        luxuryCost.textContent = data.luxury_cost ? `€${data.luxury_cost}` : 'Hesaplanamadı';
+                        // Display vehicle costs
+                        standardCost.textContent = data.standard_cost ? `€${data.standard_cost}` : 'Not calculated';
+                        luxuryCost.textContent = data.luxury_cost ? `€${data.luxury_cost}` : 'Not calculated';
 
                         if (data.from_coordinates && data.to_coordinates) {
                             drawRoute(data.from_coordinates, data.to_coordinates);
                         } else {
-                            console.error('Koordinatlar eksik:', data);
-                            errorMessage.textContent = data.error || 'Rota çizilemedi, lütfen önerilen adreslerden seçin.';
+                            console.error('Missing coordinates:', data);
+                            errorMessage.textContent = data.error || 'Route could not be drawn, please select from suggested addresses.';
                             errorMessage.className = 'error-message';
                         }
                     }
                 })
                 .catch(error => {
-                    console.error('Hata:', error);
-                    errorMessage.textContent = 'Hata oluştu: ' + error.message;
+                    console.error('Error:', error);
+                    errorMessage.textContent = 'An error occurred: ' + error.message;
                     errorMessage.className = 'error-message';
                 });
             } else {
-                errorMessage.textContent = 'Lütfen tüm zorunlu alanları doldurun (Nereden, Nereye, Gidiş Tarih & Saat) ve önerilen adreslerden seçin.';
+                errorMessage.textContent = 'Please fill in all required fields (From, To, Departure Date & Time) and select from suggested addresses.';
                 errorMessage.className = 'error-message';
             }
         });
 
-        // Araç seçimi
+        // Vehicle selection
         function selectVehicle(vehicle, ratePerKm, minCost) {
             if (!window.currentDistance) {
-                console.error('Mesafe tanımlı değil');
-                errorMessage.textContent = 'Hata: Mesafe hesaplanamadı, lütfen tekrar deneyin.';
+                console.error('Distance not defined');
+                errorMessage.textContent = 'Error: Distance could not be calculated, please try again.';
                 errorMessage.className = 'error-message';
                 return;
             }
 
-            // Tüm butonları sıfırla
+            // Reset all buttons
             const buttons = document.querySelectorAll('[data-vehicle]');
             buttons.forEach(btn => {
                 btn.className = 'bg-green-500 text-white px-2 rounded';
-                btn.textContent = 'Seç';
+                btn.textContent = 'Select';
             });
 
-            // Seçilen butonu güncelle
+            // Update selected button
             const selectedButton = document.querySelector(`[data-vehicle="${vehicle}"]`);
             if (selectedButton) {
                 selectedButton.className = 'bg-blue-500 text-white px-2 rounded';
-                selectedButton.textContent = 'Seçildi';
+                selectedButton.textContent = 'Selected';
             }
         }
     </script>
