@@ -17,7 +17,7 @@
     </style>
 </head>
 <body class="bg-black min-h-screen">
-    <div class="flex items-center justify-center min-h-screen">
+    <div class="flex items-center justify-center min-h-screen pb-5">
         <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
             <h1 class="text-2xl font-bold mb-4 text-center">Transfer Reservation</h1>
             <!-- Show Selected Country -->
